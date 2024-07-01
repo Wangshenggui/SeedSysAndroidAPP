@@ -10,26 +10,42 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/Toolbar"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="34dp"
         app:title="电机控制"
         android:background="?attr/colorPrimary"
-        android:elevation="4dp"
+        android:elevation="0dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/ic_back" /> <!-- 添加这一行 -->
 
+    <TextView
+        android:id="@+id/RTKTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="RTK定位信息："
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@id/Toolbar"/>
+
+    <TextView
+        android:id="@+id/SpeedTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="速度："
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@id/RTKTextView" />
 
     <TextView
         android:id="@+id/RxTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="116dp"
         android:text="WebSocket Demo"
         android:textSize="18sp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/Toolbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/Toolbar" />
 
     <Button
         android:id="@+id/SendDataButton"

@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.icu.text.DecimalFormat;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -15,9 +16,13 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class MotorControlActivity extends AppCompatActivity {
 
     private TextView RxTextView;
+    private TextView SpeedTextView;
     private Button SendDataButton;
     private final Handler mainHandler = new Handler(Looper.getMainLooper());
     private WebSocketServiceReceiver receiver;
@@ -37,6 +42,7 @@ public class MotorControlActivity extends AppCompatActivity {
 
         RxTextView = findViewById(R.id.RxTextView);
         SendDataButton = findViewById(R.id.SendDataButton);
+        SpeedTextView = (TextView) findViewById(R.id.SpeedTextView);
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -77,7 +83,17 @@ public class MotorControlActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             if ("WebSocketMessage".equals(intent.getAction())) {
                 String message = intent.getStringExtra("message");
-                RxTextView.setText("Rx: " + message);
+
+                try {
+                    JSONObject jsonObject = new JSONObject(message);
+                    // 假设 JSON 有一个字段叫 "data"
+                    String data = jsonObject.getString("speed");
+                    double speed = Double.parseDouble(data); // 将字符串转换为浮点数
+                    String formattedData = String.format("%.3f", speed); // 格式化为三位小数
+                    SpeedTextView.setText("速度(km/h):" + formattedData);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
