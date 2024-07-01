@@ -29,6 +29,7 @@ public class MotorControlActivity extends AppCompatActivity {
     private TextView latTextView;
     private TextView leftInfo;
     private Button SendDataButton;
+    private Button SendData0Button;
     private final Handler mainHandler = new Handler(Looper.getMainLooper());
     private WebSocketServiceReceiver receiver;
 
@@ -53,12 +54,14 @@ public class MotorControlActivity extends AppCompatActivity {
         lonTextView = (TextView) findViewById(R.id.lonTextView);
         latTextView = (TextView) findViewById(R.id.latTextView);
         leftInfo = (TextView)findViewById(R.id.leftInfo);
+        SendData0Button = findViewById(R.id.SendData0Button);
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
         toolbar.setNavigationOnClickListener(v -> finish());
+
 
         // 设置发送按钮的点击事件监听器
         SendDataButton.setOnClickListener(new View.OnClickListener() {
@@ -68,8 +71,63 @@ public class MotorControlActivity extends AppCompatActivity {
             public void onClick(View v) {
                 counter++;
                 String json = "{\"giuty\":" + counter + "}";
+
+
+                counter=1;
+                // 假设这里有多个变量需要发送
+                JSONObject data = new JSONObject();
+                putToJsonObject(data, "n1", counter);
+                putToJsonObject(data, "n2", counter);
+                putToJsonObject(data, "n3", counter);
+                putToJsonObject(data, "n4", counter);
+
+                putToJsonObject(data, "z1", counter);
+                putToJsonObject(data, "z2", counter);
+                putToJsonObject(data, "z3", counter);
+                putToJsonObject(data, "z4", counter);
+
+                putToJsonObject(data, "s1", counter);
+                putToJsonObject(data, "s2", counter);
+                putToJsonObject(data, "s3", counter);
+                putToJsonObject(data, "s4", counter);
+
+
                 Intent intent = new Intent("SendWebSocketMessage");
-                intent.putExtra("message", json);
+                intent.putExtra("message", data.toString());
+                sendBroadcast(intent);
+            }
+        });
+        // 设置发送按钮的点击事件监听器
+        SendData0Button.setOnClickListener(new View.OnClickListener() {
+            private int counter = 0;
+
+            @Override
+            public void onClick(View v) {
+                counter++;
+                String json = "{\"giuty\":" + counter + "}";
+
+
+                counter=0;
+                // 假设这里有多个变量需要发送
+                JSONObject data = new JSONObject();
+                putToJsonObject(data, "n1", counter);
+                putToJsonObject(data, "n2", counter);
+                putToJsonObject(data, "n3", counter);
+                putToJsonObject(data, "n4", counter);
+
+                putToJsonObject(data, "z1", counter);
+                putToJsonObject(data, "z2", counter);
+                putToJsonObject(data, "z3", counter);
+                putToJsonObject(data, "z4", counter);
+
+                putToJsonObject(data, "s1", counter);
+                putToJsonObject(data, "s2", counter);
+                putToJsonObject(data, "s3", counter);
+                putToJsonObject(data, "s4", counter);
+
+
+                Intent intent = new Intent("SendWebSocketMessage");
+                intent.putExtra("message", data.toString());
                 sendBroadcast(intent);
             }
         });
@@ -78,6 +136,15 @@ public class MotorControlActivity extends AppCompatActivity {
         receiver = new WebSocketServiceReceiver();
         IntentFilter filter = new IntentFilter("WebSocketMessage");
         registerReceiver(receiver, filter);
+    }
+
+    // 方法用于向JSONObject对象中放置数据
+    private static void putToJsonObject(JSONObject jsonObject, String key, Object value) {
+        try {
+            jsonObject.put(key, value);
+        } catch (JSONException e) {
+            throw new RuntimeException("Failed to put key '" + key + "' into JSONObject", e);
+        }
     }
 
     @Override
