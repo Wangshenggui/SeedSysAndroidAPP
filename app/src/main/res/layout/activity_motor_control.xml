@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,13 +12,13 @@
         android:id="@+id/Toolbar"
         android:layout_width="match_parent"
         android:layout_height="34dp"
-        app:title="电机控制"
         android:background="?attr/colorPrimary"
         android:elevation="0dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:layout_constraintTop_toTopOf="parent"
-        app:navigationIcon="@drawable/ic_back" /> <!-- 添加这一行 -->
+        app:navigationIcon="@drawable/ic_back"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:title="电机控制" />
 
     <TextView
         android:id="@+id/RTKTextView"
@@ -25,36 +26,84 @@
         android:layout_height="wrap_content"
         android:text="RTK定位信息："
         android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@id/Toolbar"/>
+        app:layout_constraintTop_toBottomOf="@id/Toolbar" />
 
     <TextView
         android:id="@+id/SpeedTextView"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="速度："
         android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@id/RTKTextView" />
+        app:layout_constraintTop_toBottomOf="@id/RTKTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline" />
 
     <TextView
-        android:id="@+id/RxTextView"
-        android:layout_width="wrap_content"
+        android:id="@+id/altiTextView"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="116dp"
-        android:text="WebSocket Demo"
+        android:text="海拔："
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintTop_toBottomOf="@id/RTKTextView"
+        app:layout_constraintStart_toEndOf="@+id/guideline"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/RTKStatusTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="RTK状态："
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@id/SpeedTextView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/Toolbar" />
+        app:layout_constraintEnd_toStartOf="@id/guideline" />
+
+    <TextView
+        android:id="@+id/RTKHCSDSTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="卫星数量："
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@id/SpeedTextView"
+        app:layout_constraintStart_toEndOf="@id/guideline"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/lonTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="经度："
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@id/RTKStatusTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/guideline" />
+
+    <TextView
+        android:id="@+id/latTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="纬度："
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@id/RTKHCSDSTextView"
+        app:layout_constraintStart_toEndOf="@id/guideline"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
 
     <Button
         android:id="@+id/SendDataButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="228dp"
         android:text="发送数据"
-        app:layout_constraintTop_toBottomOf="@id/RxTextView"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
