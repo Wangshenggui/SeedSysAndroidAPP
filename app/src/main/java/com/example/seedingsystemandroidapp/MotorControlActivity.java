@@ -27,6 +27,7 @@ public class MotorControlActivity extends AppCompatActivity {
     private TextView RTKHCSDSTextView;
     private TextView lonTextView;
     private TextView latTextView;
+    private TextView leftInfo;
     private Button SendDataButton;
     private final Handler mainHandler = new Handler(Looper.getMainLooper());
     private WebSocketServiceReceiver receiver;
@@ -51,6 +52,7 @@ public class MotorControlActivity extends AppCompatActivity {
         RTKHCSDSTextView = (TextView) findViewById(R.id.RTKHCSDSTextView);
         lonTextView = (TextView) findViewById(R.id.lonTextView);
         latTextView = (TextView) findViewById(R.id.latTextView);
+        leftInfo = (TextView)findViewById(R.id.leftInfo);
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -94,36 +96,62 @@ public class MotorControlActivity extends AppCompatActivity {
 
                 try {
                     JSONObject jsonObject = new JSONObject(message);
-                    // 假设 JSON 有一个字段叫 "data"
-                    String data = jsonObject.getString("speed");
-                    double speed = Double.parseDouble(data); // 将字符串转换为浮点数
-                    String formattedData = String.format("%.3f", speed); // 格式化为三位小数
-                    SpeedTextView.setText("速度(km/h):" + formattedData);
 
-                    data = jsonObject.getString("alti");
-                    double alti = Double.parseDouble(data); // 将字符串转换为浮点数
-                    formattedData = String.format("%.2f", alti); // 格式化为三位小数
-                    altiTextView.setText("海拔(m):" + formattedData);
+                    if (jsonObject.has("lon")) {
+                        // 解析包含"lon"信息的消息
+                        String data = jsonObject.getString("speed");
+                        double speed = Double.parseDouble(data);
+                        String formattedData = String.format("%.3f", speed);
+                        SpeedTextView.setText("速度(km/h):" + formattedData);
 
-                    data = jsonObject.getString("rtksta");
-                    RTKStatusTextView.setText("RTK状态:" + data);
+                        data = jsonObject.getString("alti");
+                        double alti = Double.parseDouble(data);
+                        formattedData = String.format("%.2f", alti);
+                        altiTextView.setText("海拔(m):" + formattedData);
 
-                    data = jsonObject.getString("HCSDS");
-                    RTKHCSDSTextView.setText("卫星数量:" + data);
+                        data = jsonObject.getString("rtksta");
+                        RTKStatusTextView.setText("RTK状态:" + data);
 
-                    data = jsonObject.getString("lon");
-                    double lon = Double.parseDouble(data); // 将字符串转换为浮点数
-                    formattedData = String.format("%.10f", lon); // 格式化为三位小数
-                    lonTextView.setText("经度:" + formattedData);
+                        data = jsonObject.getString("HCSDS");
+                        RTKHCSDSTextView.setText("卫星数量:" + data);
 
-                    data = jsonObject.getString("lat");
-                    double lat = Double.parseDouble(data); // 将字符串转换为浮点数
-                    formattedData = String.format("%.10f", lat); // 格式化为三位小数
-                    latTextView.setText("经度:" + formattedData);
+                        data = jsonObject.getString("lon");
+                        double lon = Double.parseDouble(data);
+                        formattedData = String.format("%.10f", lon);
+                        String dms = convertToDMS(lon);
+                        lonTextView.setText("E:" + dms);
+
+                        data = jsonObject.getString("lat");
+                        double lat = Double.parseDouble(data);
+                        formattedData = String.format("%.10f", lat);
+                        dms = convertToDMS(lat);
+                        latTextView.setText("N:" + dms);
+                    } else if (jsonObject.has("S1")) {
+                        // 解析包含"S1"信息的消息
+                        // 这里放置解析"S1"信息的代码，根据具体需求进行处理
+                        String S = jsonObject.getString("S1");
+                        String r1 = jsonObject.getString("r1");
+                        leftInfo.setText("状态:" + S + "-转速:" + r1);
+                    } else {
+                        // 处理其他情况或报错
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
         }
+    }
+
+    //转换度分秒
+    public static String convertToDMS(double coord) {
+        int degrees = (int) coord;
+        double minutesDouble = (coord - degrees) * 60;
+        int minutes = (int) minutesDouble;
+        double secondsDouble = (minutesDouble - minutes) * 60;
+        // Format seconds to show up to 4 decimal places
+        String secondsFormatted = String.format("%.4f", secondsDouble);
+
+        // Construct the DMS string without extra spaces
+        return String.format("%d°%d'%s″", degrees, minutes, secondsFormatted);
     }
 }
