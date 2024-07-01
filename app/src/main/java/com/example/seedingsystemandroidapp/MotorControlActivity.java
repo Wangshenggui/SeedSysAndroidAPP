@@ -28,10 +28,6 @@ public class MotorControlActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_motor_control);
 
-        // 启动WebSocket服务
-        Intent serviceIntent = new Intent(this, WebSocketService.class);
-        startService(serviceIntent);
-
         // Set up the Toolbar
         Toolbar toolbar = findViewById(R.id.Toolbar);
         setSupportActionBar(toolbar);

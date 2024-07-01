@@ -23,6 +23,10 @@ public class MainActivity extends AppCompatActivity {
         //EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
+        // 启动WebSocket服务
+        Intent serviceIntent = new Intent(this, WebSocketService.class);
+        startService(serviceIntent);
+
         //获取控件ID
         goMotConActivityButton = (Button) findViewById(R.id.goMotConActivityButton);
         goMotConActivityButton.setOnClickListener(new View.OnClickListener() {
