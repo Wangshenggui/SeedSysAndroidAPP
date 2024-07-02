@@ -12,13 +12,13 @@ import androidx.fragment.app.Fragment;
 
 import com.example.seedingsystemandroidapp.R;
 
-public class GameFragment extends Fragment {
+public class MotorControlFragment extends Fragment {
 
     private TextView textView;
     private int count = 0;
     private Handler handler;
 
-    public GameFragment() {
+    public MotorControlFragment() {
         // Required empty public constructor
     }
 
@@ -31,7 +31,7 @@ public class GameFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_game, container, false);
+        View view = inflater.inflate(R.layout.fragment_motor_control, container, false);
         textView = view.findViewById(R.id.text_view); // 假设布局文件中有一个TextView，ID为text_view
         startCounting();
         return view;
@@ -43,7 +43,7 @@ public class GameFragment extends Fragment {
             public void run() {
                 count++;
                 if (textView != null) {
-                    textView.setText(String.valueOf(count));
+                    textView.setText("电机控制" + String.valueOf(count));
                 }
                 handler.postDelayed(this, 100);
             }
@@ -58,7 +58,7 @@ public class GameFragment extends Fragment {
 
     public void updateText(String text) {
         if (textView != null) {
-            textView.setText(text);
+            textView.setText("电机控制" + text);
         }
     }
 }

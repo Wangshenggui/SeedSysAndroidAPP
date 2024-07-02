@@ -10,8 +10,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.seedingsystemandroidapp.RTKSettingFragment.GameFragment;
 import com.example.seedingsystemandroidapp.RTKSettingFragment.HomeFragment;
+import com.example.seedingsystemandroidapp.RTKSettingFragment.MotorControlFragment;
 import com.example.seedingsystemandroidapp.RTKSettingFragment.PlanFragment;
 import com.example.seedingsystemandroidapp.RTKSettingFragment.SettingFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -39,9 +39,9 @@ public class RTKSettingActivity extends AppCompatActivity {
     private void initFragment() {
         HomeFragment mHomeFragment = new HomeFragment();
         PlanFragment mPlanFragment = new PlanFragment();
-        GameFragment mGameFragment = new GameFragment();
+        MotorControlFragment mMotorControlFragment = new MotorControlFragment();
         SettingFragment mSettingFragment = new SettingFragment();
-        fragments = new Fragment[]{mHomeFragment, mPlanFragment, mGameFragment, mSettingFragment};
+        fragments = new Fragment[]{mHomeFragment, mPlanFragment, mMotorControlFragment, mSettingFragment};
         mFragmentManager = getSupportFragmentManager();
         // 默认显示HomeFragment
         lastFragment = 0;
@@ -97,7 +97,7 @@ public class RTKSettingActivity extends AppCompatActivity {
     }
 
     private void updateGameFragmentText(String text) {
-        GameFragment gameFragment = (GameFragment) fragments[2];
+        MotorControlFragment gameFragment = (MotorControlFragment) fragments[2];
         if (gameFragment != null) {
             gameFragment.updateText(text);
         }

@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".RTKSettingFragment.MotorControlFragment">
+
+
+    <!-- TODO: Update blank fragment layout -->
+
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/Toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="34dp"
+        android:background="?attr/colorPrimary"
+        android:elevation="0dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_back"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:title="电机控制" />
+
+    <TextView
+        android:id="@+id/RTKTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="RTK定位信息："
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@id/Toolbar"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/SpeedTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="速度："
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@id/RTKTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline" />
+
+    <TextView
+        android:id="@+id/altiTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="海拔："
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@id/RTKTextView"
+        app:layout_constraintStart_toEndOf="@+id/guideline"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/RTKStatusTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="RTK状态："
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@id/SpeedTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/guideline" />
+
+    <TextView
+        android:id="@+id/RTKHCSDSTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="卫星数量："
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@id/SpeedTextView"
+        app:layout_constraintStart_toEndOf="@id/guideline"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/lonTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="经度："
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@id/RTKStatusTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/guideline" />
+
+    <TextView
+        android:id="@+id/latTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="纬度："
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@id/RTKHCSDSTextView"
+        app:layout_constraintStart_toEndOf="@id/guideline"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- 左侧容器 -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/leftContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="#C0C0C0C0"
+        android:elevation="4dp"
+        android:padding="16dp"
+        app:layout_constraintEnd_toStartOf="@id/guideline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lonTextView">
+
+        <!-- 左侧标题 -->
+        <TextView
+            android:id="@+id/leftTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="左侧标题"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- 左侧信息 -->
+        <TextView
+            android:id="@+id/leftInfo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="这里是左侧的一些信息内容。"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/leftTitle" />
+
+        <!-- 左侧色块 -->
+        <View
+            android:id="@+id/leftColorBlock"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="8dp"
+            android:background="@android:color/holo_blue_light"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/leftInfo" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- 右侧容器 -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/rightContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="#C0C0C0C0"
+        android:elevation="4dp"
+        android:padding="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/guideline"
+        app:layout_constraintTop_toBottomOf="@id/latTextView">
+
+        <!-- 右侧标题 -->
+        <TextView
+            android:id="@+id/rightTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="右侧标题"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- 右侧信息 -->
+        <TextView
+            android:id="@+id/rightInfo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="这里是右侧的一些信息内容。"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rightTitle" />
+
+        <!-- 右侧色块 -->
+        <View
+            android:id="@+id/rightColorBlock"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="8dp"
+            android:background="@android:color/holo_red_light"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rightInfo" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- 左侧下方容器 -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/leftBottomContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="#A0A0A0"
+        android:elevation="4dp"
+        android:padding="16dp"
+        app:layout_constraintEnd_toStartOf="@id/guideline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/leftContainer">
+
+        <!-- 左侧下方标题 -->
+        <TextView
+            android:id="@+id/leftBottomTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="左侧下方标题"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- 左侧下方信息 -->
+        <TextView
+            android:id="@+id/leftBottomInfo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="这里是左侧下方的一些信息内容。"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/leftBottomTitle" />
+
+        <!-- 左侧下方色块 -->
+        <View
+            android:id="@+id/leftBottomColorBlock"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="8dp"
+            android:background="@android:color/holo_green_light"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/leftBottomInfo" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- 右侧下方容器 -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/rightBottomContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="#A0A0A0"
+        android:elevation="4dp"
+        android:padding="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/guideline"
+        app:layout_constraintTop_toBottomOf="@id/rightContainer">
+
+        <!-- 右侧下方标题 -->
+        <TextView
+            android:id="@+id/rightBottomTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="右侧下方标题"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- 右侧下方信息 -->
+        <TextView
+            android:id="@+id/rightBottomInfo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="这里是右侧下方的一些信息内容。"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rightBottomTitle" />
+
+        <!-- 右侧下方色块 -->
+        <View
+            android:id="@+id/rightBottomColorBlock"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="8dp"
+            android:background="@android:color/holo_orange_light"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rightBottomInfo" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <Button
+        android:id="@+id/SendDataButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="发送数据"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.863"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rightBottomContainer" />
+
+    <Button
+        android:id="@+id/SendData0Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="发送数据0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.182"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rightBottomContainer"
+        app:layout_constraintVertical_bias="0.505" />
+
+    <TextView
+        android:id="@+id/text_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/hello_blank_fragment" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
