@@ -195,7 +195,7 @@ public class MotorControlFragment extends Fragment {
                         // 这里放置解析"S1"信息的代码，根据具体需求进行处理
                         String S = jsonObject.getString("S1");
                         String r1 = jsonObject.getString("r1");
-                        leftInfo.setText("状态:" + S + "-转速:" + r1);
+                        leftInfo.setText("\n状态:" + S + "-转速:" + r1);
                     } else {
                         // 处理其他情况或报错
                     }
