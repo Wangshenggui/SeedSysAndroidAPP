@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" /> <!-- 添加网络权限 -->
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> <!-- 添加前台服务权限 -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:allowBackup="true"
@@ -16,27 +16,28 @@
         android:theme="@style/Theme.SeedingSystemAndroidAPP"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-
+        <activity
+            android:name=".RTKSettingActivity"
+            android:exported="false" />
         <activity
             android:name=".MotorControlActivity"
             android:exported="false"
             android:label="电机控制" />
-
         <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
         <service
             android:name=".WebSocketService"
-            android:foregroundServiceType="connectedDevice"
             android:exported="false"
+            android:foregroundServiceType="connectedDevice"
             tools:ignore="ForegroundServicePermission" />
-
     </application>
 
 </manifest>
