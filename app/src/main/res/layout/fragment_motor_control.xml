@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".RTKSettingFragment.MotorControlFragment">
 
 
@@ -37,9 +37,9 @@
         android:layout_height="wrap_content"
         android:text="速度："
         android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@id/RTKTextView"
+        app:layout_constraintEnd_toStartOf="@+id/guideline"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guideline" />
+        app:layout_constraintTop_toBottomOf="@id/RTKTextView" />
 
     <TextView
         android:id="@+id/altiTextView"
@@ -47,9 +47,9 @@
         android:layout_height="wrap_content"
         android:text="海拔："
         android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@id/RTKTextView"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/guideline"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/RTKTextView" />
 
     <TextView
         android:id="@+id/RTKStatusTextView"
@@ -57,9 +57,9 @@
         android:layout_height="wrap_content"
         android:text="RTK状态："
         android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@id/SpeedTextView"
+        app:layout_constraintEnd_toStartOf="@id/guideline"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/guideline" />
+        app:layout_constraintTop_toBottomOf="@id/SpeedTextView" />
 
     <TextView
         android:id="@+id/RTKHCSDSTextView"
@@ -67,9 +67,9 @@
         android:layout_height="wrap_content"
         android:text="卫星数量："
         android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@id/SpeedTextView"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/guideline"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/SpeedTextView" />
 
     <TextView
         android:id="@+id/lonTextView"
@@ -77,9 +77,9 @@
         android:layout_height="wrap_content"
         android:text="经度："
         android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@id/RTKStatusTextView"
+        app:layout_constraintEnd_toStartOf="@id/guideline"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/guideline" />
+        app:layout_constraintTop_toBottomOf="@id/RTKStatusTextView" />
 
     <TextView
         android:id="@+id/latTextView"
@@ -87,9 +87,9 @@
         android:layout_height="wrap_content"
         android:text="纬度："
         android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@id/RTKHCSDSTextView"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/guideline"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/RTKHCSDSTextView" />
 
     <!-- 左侧容器 -->
     <androidx.constraintlayout.widget.ConstraintLayout
