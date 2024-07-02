@@ -14,8 +14,6 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
 
-    //跳转到电机控制页面
-    Button goMotConActivityButton;
     Button goRTKSettingActivityButton;
     @SuppressLint("MissingInflatedId")
     @Override
@@ -29,15 +27,7 @@ public class MainActivity extends AppCompatActivity {
         startService(serviceIntent);
 
         //获取控件ID
-        goMotConActivityButton = (Button) findViewById(R.id.goMotConActivityButton);
         goRTKSettingActivityButton = (Button) findViewById(R.id.goRTKSettingActivityButton);
-        goMotConActivityButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, MotorControlActivity.class);
-                startActivity(intent);
-            }
-        });
 
         goRTKSettingActivityButton.setOnClickListener(new View.OnClickListener() {
             @Override

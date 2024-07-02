@@ -72,7 +72,6 @@ public class RTKSettingActivity extends AppCompatActivity {
                     if (lastFragment != 2) {
                         switchFragment(lastFragment, 2);
                         lastFragment = 2;
-                        updateGameFragmentText("Counting started!"); // 更新GameFragment的文本内容
                     }
                     return true;
                 } else if (i == R.id.setting) {
@@ -94,13 +93,6 @@ public class RTKSettingActivity extends AppCompatActivity {
             transaction.add(R.id.main_page_controller, fragments[index]);
         }
         transaction.show(fragments[index]).commitAllowingStateLoss();
-    }
-
-    private void updateGameFragmentText(String text) {
-        MotorControlFragment gameFragment = (MotorControlFragment) fragments[2];
-        if (gameFragment != null) {
-            gameFragment.updateText(text);
-        }
     }
 
     private void loadOtherFragments() {
