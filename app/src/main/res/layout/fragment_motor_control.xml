@@ -8,27 +8,32 @@
 
 
     <!-- TODO: Update blank fragment layout -->
+<!--    <androidx.appcompat.widget.Toolbar-->
+<!--        android:id="@+id/Toolbar"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="34dp"-->
+<!--        android:background="?attr/colorPrimary"-->
+<!--        android:elevation="0dp"-->
+<!--        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:navigationIcon="@drawable/ic_back"-->
+<!--        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"-->
+<!--        app:title="电机控制" />-->
 
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/Toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="34dp"
-        android:background="?attr/colorPrimary"
-        android:elevation="0dp"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:layout_constraintTop_toTopOf="parent"
-        app:navigationIcon="@drawable/ic_back"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:title="电机控制" />
-
+<!--    <TextView-->
+<!--        android:id="@+id/RTKTextView"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="RTK定位信息："-->
+<!--        android:textSize="18sp"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/Toolbar"-->
+<!--        tools:ignore="MissingConstraints" />-->
     <TextView
         android:id="@+id/RTKTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="RTK定位信息："
         android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@id/Toolbar"
         tools:ignore="MissingConstraints" />
 
     <TextView
