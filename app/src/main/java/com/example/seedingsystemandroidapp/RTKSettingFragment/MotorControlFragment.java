@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -124,6 +125,31 @@ public class MotorControlFragment extends Fragment {
         }
     }
 
+    private String getRTKStatusMessage(String data) {
+        switch (data) {
+            case "0":
+                return "无定位";
+            case "1":
+                return "单点定位";
+            case "2":
+                return "差分定位D";
+            case "3":
+                return "精密定位";
+            case "4":
+                return "RTK固定解";
+            case "5":
+                return "RTK浮动解";
+            case "6":
+                return "位置估算";
+            case "7":
+                return "手动输入模式";
+            case "8":
+                return "模拟模式";
+            default:
+                return "未知状态";
+        }
+    }
+
     private class WebSocketServiceReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -146,7 +172,9 @@ public class MotorControlFragment extends Fragment {
                         altiTextView.setText("海拔(m):" + formattedData);
 
                         data = jsonObject.getString("rtksta");
-                        RTKStatusTextView.setText("RTK状态:" + data);
+                        String rtkStatusMessage = getRTKStatusMessage(data);
+                        RTKStatusTextView.setText("RTK状态: " + rtkStatusMessage);
+
 
                         data = jsonObject.getString("HCSDS");
                         RTKHCSDSTextView.setText("卫星数量:" + data);
