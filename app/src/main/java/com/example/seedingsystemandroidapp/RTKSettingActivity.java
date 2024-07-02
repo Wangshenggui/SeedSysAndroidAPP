@@ -10,9 +10,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.seedingsystemandroidapp.RTKSettingFragment.HomeFragment;
 import com.example.seedingsystemandroidapp.RTKSettingFragment.MotorControlFragment;
 import com.example.seedingsystemandroidapp.RTKSettingFragment.PlanFragment;
+import com.example.seedingsystemandroidapp.RTKSettingFragment.RTKDataDisplayFragment;
 import com.example.seedingsystemandroidapp.RTKSettingFragment.SettingFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -37,17 +37,17 @@ public class RTKSettingActivity extends AppCompatActivity {
     }
 
     private void initFragment() {
-        HomeFragment mHomeFragment = new HomeFragment();
+        RTKDataDisplayFragment mRTKDataDisplayFragment = new RTKDataDisplayFragment();
         PlanFragment mPlanFragment = new PlanFragment();
         MotorControlFragment mMotorControlFragment = new MotorControlFragment();
         SettingFragment mSettingFragment = new SettingFragment();
-        fragments = new Fragment[]{mHomeFragment, mPlanFragment, mMotorControlFragment, mSettingFragment};
+        fragments = new Fragment[]{mRTKDataDisplayFragment, mPlanFragment, mMotorControlFragment, mSettingFragment};
         mFragmentManager = getSupportFragmentManager();
         // 默认显示HomeFragment
         lastFragment = 0;
         mFragmentManager.beginTransaction()
-                .replace(R.id.main_page_controller, mHomeFragment)
-                .show(mHomeFragment)
+                .replace(R.id.main_page_controller, mRTKDataDisplayFragment)
+                .show(mRTKDataDisplayFragment)
                 .commit();
     }
 
