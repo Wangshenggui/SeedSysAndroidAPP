@@ -28,74 +28,85 @@ function initMap() {
 // 调用 initMap 函数初始化地图
 document.addEventListener('DOMContentLoaded', initMap);
 
-// 创建 WebSocket 连接
-var socket = new WebSocket('ws://8.137.81.229:8880'); // 替换为你的 WebSocket URL
+// 创建 WebSocket 连接和自动重连逻辑
+var socket = null;
+var socketUrl = 'ws://8.137.81.229:8880'; // 替换为你的 WebSocket URL
 
-socket.onopen = function(event) {
-    console.log('WebSocket is connected.');
-    // 成功连接后可以向服务器发送消息
-    socket.send('Hello Server!');
-};
+function connectWebSocket() {
+    socket = new WebSocket(socketUrl);
 
-socket.onmessage = function(event) {
-    console.log('Received message from server: ' + event.data);
+    socket.onopen = function(event) {
+        console.log('WebSocket is connected.');
+        // 成功连接后可以向服务器发送消息
+        socket.send('Hello Server!');
+    };
 
-    // 解析 JSON 数据
-    var data = JSON.parse(event.data);
+    socket.onmessage = function(event) {
+        console.log('Received message from server: ' + event.data);
 
-    // 提取经度和纬度
-    var longitude = data.lon;
-    var latitude = data.lat;
+        // 解析 JSON 数据
+        var data = JSON.parse(event.data);
 
-    // 更新经度和纬度文本元素
-    var lonElement = document.querySelector('.text-lon');
-    var latElement = document.querySelector('.text-lat');
-    lonElement.textContent = '经度: ' + longitude.toFixed(10);
-    latElement.textContent = '纬度: ' + latitude.toFixed(10);
+        // 提取经度和纬度
+        var longitude = data.lon;
+        var latitude = data.lat;
 
-    // 转换为 BD-09 坐标
-    var bd09 = wgs84ToBd09(data.lon, data.lat);
+        // 更新经度和纬度文本元素
+        var lonElement = document.querySelector('.text-lon');
+        var latElement = document.querySelector('.text-lat');
+        lonElement.textContent = '经度: ' + longitude.toFixed(10);
+        latElement.textContent = '纬度: ' + latitude.toFixed(10);
 
-    // 添加新的点到轨迹点数组中，但只有当经纬度大于阈值时才添加
-    if (Math.abs(data.lon) > 0.0065 && Math.abs(data.lat) > 0.0065) {
-        var newPoint = new BMap.Point(bd09[0], bd09[1]);
-        points.push(newPoint);
+        // 转换为 BD-09 坐标
+        var bd09 = wgs84ToBd09(data.lon, data.lat);
 
-        // 删除之前的轨迹线（如果存在），但只有在地图没有被拖动时才进行中心移动和轨迹线绘制
-        if (!mapIsBeingDragged) {
-            if (polyline) {
-                map.removeOverlay(polyline);
+        // 添加新的点到轨迹点数组中，但只有当经纬度大于阈值时才添加
+        if (Math.abs(data.lon) > 0.0065 && Math.abs(data.lat) > 0.0065) {
+            var newPoint = new BMap.Point(bd09[0], bd09[1]);
+            points.push(newPoint);
+
+            // 删除之前的轨迹线（如果存在），但只有在地图没有被拖动时才进行中心移动和轨迹线绘制
+            if (!mapIsBeingDragged) {
+                if (polyline) {
+                    map.removeOverlay(polyline);
+                }
+                // 清除上一次的标记
+                if (marker) {
+                    map.removeOverlay(marker);
+                    marker = null;
+                }
+
+                // 创建新的轨迹线
+                polyline = new BMap.Polyline(points, {strokeColor:"red", strokeWeight:6, strokeOpacity:1});
+                map.addOverlay(polyline);
+
+                // 创建标记
+                marker = new BMap.Marker(newPoint);
+                marker.setIcon(new BMap.Icon('img/huaji.png', new BMap.Size(16, 45)));
+
+                // 添加标记到地图
+                map.addOverlay(marker);
+
+                // 将地图中心移动到最新点
+                map.panTo(newPoint);
             }
-            // 清除上一次的标记
-            if (marker) {
-                map.removeOverlay(marker);
-                marker = null;
-            }
-
-            // 创建新的轨迹线
-            polyline = new BMap.Polyline(points, {strokeColor:"red", strokeWeight:5, strokeOpacity:1});
-            map.addOverlay(polyline);
-
-            // 创建标记
-            marker = new BMap.Marker(newPoint);
-            marker.setIcon(new BMap.Icon('img/huaji.png', new BMap.Size(16, 45)));
-
-            // 添加标记到地图
-            map.addOverlay(marker);
-
-            // 将地图中心移动到最新点
-            map.panTo(newPoint);
         }
-    }
-};
+    };
 
-socket.onclose = function(event) {
-    console.log('WebSocket is closed.');
-};
+    socket.onclose = function(event) {
+        console.log('WebSocket is closed. Reconnecting...');
+        alert('WebSocket连接已断开，正在尝试重新连接...');
+        setTimeout(connectWebSocket, 100); // 2秒后尝试重新连接
+    };
 
-socket.onerror = function(error) {
-    console.log('WebSocket error: ' + error);
-};
+    socket.onerror = function(error) {
+        console.log('WebSocket error: ' + error);
+        // 在这里处理错误
+    };
+}
+
+// 初始连接
+connectWebSocket();
 
 function wgs84ToGcj02(lon, lat) {
     var pi = 3.1415926535897932384626;
