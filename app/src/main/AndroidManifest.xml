@@ -20,10 +20,6 @@
             android:name=".RTKSettingActivity"
             android:exported="false" />
         <activity
-            android:name=".MotorControlActivity"
-            android:exported="false"
-            android:label="电机控制" />
-        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
