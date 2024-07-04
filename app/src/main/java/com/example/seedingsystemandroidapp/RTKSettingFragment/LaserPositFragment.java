@@ -12,10 +12,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import com.example.seedingsystemandroidapp.R;
@@ -83,9 +86,37 @@ public class LaserPositFragment extends Fragment {
         SaveCoordButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendWebSocketMessage(99);
+                showPasswordDialog();
             }
         });
+    }
+
+    private void showPasswordDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+        builder.setTitle("密码验证");
+
+        // Set up the input
+        final EditText input = new EditText(requireContext());
+        input.setInputType(android.text.InputType.TYPE_CLASS_TEXT | android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        builder.setView(input);
+
+        // Set up the buttons
+        builder.setPositiveButton("确认", (dialog, which) -> {
+            String password = input.getText().toString();
+            if (validatePassword(password)) {
+                sendWebSocketMessage(99);
+            } else {
+                Toast.makeText(requireContext(), "密码错误", Toast.LENGTH_SHORT).show();
+            }
+        });
+        builder.setNegativeButton("取消", (dialog, which) -> dialog.cancel());
+
+        builder.show();
+    }
+
+    private boolean validatePassword(String password) {
+        // Replace with your actual password validation logic
+        return "    ".equals(password);
     }
 
 
