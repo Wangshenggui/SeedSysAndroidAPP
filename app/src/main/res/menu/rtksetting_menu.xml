@@ -2,12 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/home"
-        android:icon="@drawable/ic_back"
+        android:icon="@drawable/rtknormal"
         android:title="RTK"/>
     <item
         android:id="@+id/plan"
-        android:icon="@drawable/ic_back"
-        android:title="日程"/>
+        android:icon="@drawable/laser_positioning"
+        android:title="定位打点"/>
     <item
         android:id="@+id/game"
         android:icon="@drawable/motor"
