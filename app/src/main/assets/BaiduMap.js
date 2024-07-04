@@ -50,16 +50,38 @@ function connectWebSocket() {
         // 提取经度和纬度
         var longitude = data.lon;
         var latitude = data.lat;
+        //提取速度
+        var speed = data.speed;
+        //提取RTK状态
+        var status = data.rtksta;
+        //提取卫星数量
+        var HCSDS = data.HCSDS;
+        //提取海拔高度
+        var altitude = data.alti;
 
         // 更新经度和纬度文本元素
         var lonElement = document.querySelector('.text-lon');
         var latElement = document.querySelector('.text-lat');
         lonElement.textContent = '经度: ' + longitude.toFixed(10);
         latElement.textContent = '纬度: ' + latitude.toFixed(10);
+        //更新速度
+        var km_hElement = document.querySelector('.text-speedkmh');
+        var m_sElement = document.querySelector('.text-speedms');
+        km_hElement.textContent = '速度: ' + speed.toFixed(4) + ' (km/h)';
+        speed = speed/3.6;
+        m_sElement.textContent = '速度: ' + speed.toFixed(4) + ' (m/s)';
+        //更新RTK状态
+        var statusElement = document.querySelector('.text-status');
+        statusElement.textContent = 'RTK状态: ' + getRTKStateText(status);
+        //更新卫星数量
+        var HCSDSElement = document.querySelector('.text-HCSDS');
+        HCSDSElement.textContent = '卫星数量: ' + HCSDS;
+        //更新海拔高度
+        var altitudeElement = document.querySelector('.text-altitude');
+        altitudeElement.textContent = '海拔高度: ' + altitude.toFixed(2) + ' m';
 
         // 转换为 BD-09 坐标
         var bd09 = wgs84ToBd09(data.lon, data.lat);
-
         // 添加新的点到轨迹点数组中，但只有当经纬度大于阈值时才添加
         if (Math.abs(data.lon) > 0.0065 && Math.abs(data.lat) > 0.0065) {
             var newPoint = new BMap.Point(bd09[0], bd09[1]);
@@ -107,6 +129,24 @@ function connectWebSocket() {
 
 // 初始连接
 connectWebSocket();
+
+// 根据RTK状态值返回对应的文本
+function getRTKStateText(rtkState) {
+    switch (rtkState) {
+        case 0:
+            return '无定位';
+        case 1:
+            return '单点定位';
+        case 2:
+            return '亚米级定位';
+        case 4:
+            return 'RTK固定解';
+        case 5:
+            return 'RTK浮动解';
+        default:
+            return '未知';
+    }
+}
 
 function wgs84ToGcj02(lon, lat) {
     var pi = 3.1415926535897932384626;

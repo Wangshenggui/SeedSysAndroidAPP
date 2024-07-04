@@ -9,9 +9,22 @@
 <body>
 <div id="map"></div>
 
-<div class="text-container">
-    <div class="text-lon">经度</div>
-    <div class="text-lat">纬度</div>
+<div class="container">
+    <div class="lonlat-container">
+        <span class="text-lon">经度: 0</span>
+        <span class="text-lat">纬度: 0</span>
+    </div>
+    <div class="speed-container">
+        <span class="text-speedms">速度(m/s): 0</span>
+        <span class="text-speedkmh">速度(km/h): 0</span>
+    </div>
+    <div class="statusHCSDS-container">
+        <span class="text-status">RTK状态: </span>
+        <span class="text-HCSDS">卫星数量: </span>
+    </div>
+    <div class="altitude-container">
+        <span class="text-altitude">海拔高度: </span>
+    </div>
 </div>
 
 <script type="text/javascript" src="http://api.map.baidu.com/library/MarkerClusterer/1.2/src/MarkerClusterer_min.js"></script>
