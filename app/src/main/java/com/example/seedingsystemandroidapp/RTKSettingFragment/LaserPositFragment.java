@@ -37,6 +37,7 @@ public class LaserPositFragment extends Fragment {
     private Button SaveCoordButton;
     private Handler handler;
     private WebSocketServiceReceiver webSocketReceiver;
+    private boolean isPasswordValidated = false; // Flag to track password validation
 
     public LaserPositFragment() {
         // Required empty public constructor
@@ -83,9 +84,10 @@ public class LaserPositFragment extends Fragment {
     }
 
     private void saveCoordButton() {
-        SaveCoordButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        SaveCoordButton.setOnClickListener(v -> {
+            if (isPasswordValidated) {
+                sendWebSocketMessage(99); // Directly send the message if already validated
+            } else {
                 showPasswordDialog();
             }
         });
@@ -104,6 +106,7 @@ public class LaserPositFragment extends Fragment {
         builder.setPositiveButton("确认", (dialog, which) -> {
             String password = input.getText().toString();
             if (validatePassword(password)) {
+                isPasswordValidated = true; // Mark as validated
                 sendWebSocketMessage(99);
             } else {
                 Toast.makeText(requireContext(), "密码错误", Toast.LENGTH_SHORT).show();
@@ -116,9 +119,8 @@ public class LaserPositFragment extends Fragment {
 
     private boolean validatePassword(String password) {
         // Replace with your actual password validation logic
-        return "    ".equals(password);
+        return "55555".equals(password);
     }
-
 
     private void sendWebSocketMessage(int value) {
         JSONObject data = new JSONObject();
@@ -248,3 +250,4 @@ public class LaserPositFragment extends Fragment {
         handler.removeCallbacksAndMessages(null); // Stop periodic task
     }
 }
+
