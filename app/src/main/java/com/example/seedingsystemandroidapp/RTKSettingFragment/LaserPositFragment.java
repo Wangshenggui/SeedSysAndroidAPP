@@ -35,6 +35,8 @@ public class LaserPositFragment extends Fragment {
     private TextView lonTextView;
     private TextView latTextView;
     private Button SaveCoordButton;
+    private Button DelThePreCoordButton;
+    private Button ClearAllCoordButton;
     private Handler handler;
     private WebSocketServiceReceiver webSocketReceiver;
     private boolean isPasswordValidated = false; // Flag to track password validation
@@ -62,8 +64,12 @@ public class LaserPositFragment extends Fragment {
         lonTextView = view.findViewById(R.id.lonTextView);
         latTextView = view.findViewById(R.id.latTextView);
         SaveCoordButton = view.findViewById(R.id.SaveCoordButton);
+        DelThePreCoordButton = view.findViewById(R.id.DelThePreCoordButton);
+        ClearAllCoordButton = view.findViewById(R.id.ClearAllCoordButton);
 
         saveCoordButton();
+        delThePreCoordButton();
+        clearAllCoordButton();
 
         startCounting(); // Placeholder, adjust as needed
 
@@ -87,6 +93,24 @@ public class LaserPositFragment extends Fragment {
         SaveCoordButton.setOnClickListener(v -> {
             if (isPasswordValidated) {
                 sendWebSocketMessage(99); // Directly send the message if already validated
+            } else {
+                showPasswordDialog();
+            }
+        });
+    }
+    private void delThePreCoordButton() {
+        DelThePreCoordButton.setOnClickListener(v -> {
+            if (isPasswordValidated) {
+                sendWebSocketMessage(66); // Directly send the message if already validated
+            } else {
+                showPasswordDialog();
+            }
+        });
+    }
+    private void clearAllCoordButton() {
+        ClearAllCoordButton.setOnClickListener(v -> {
+            if (isPasswordValidated) {
+                sendWebSocketMessage(55); // Directly send the message if already validated
             } else {
                 showPasswordDialog();
             }

@@ -88,10 +88,34 @@
         android:text="记录当前位置"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
-        app:layout_constraintHorizontal_bias="0.512"
+        app:layout_constraintHorizontal_bias="0.487"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lonTextView"
-        app:layout_constraintVertical_bias="0.235" />
+        app:layout_constraintVertical_bias="0.083" />
+
+    <Button
+        android:id="@+id/DelThePreCoordButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="删除一个坐标"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.53"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toBottomOf="@+id/latTextView"
+        app:layout_constraintVertical_bias="0.083" />
+
+    <Button
+        android:id="@+id/ClearAllCoordButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="清除所有坐标"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.53"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toBottomOf="@+id/DelThePreCoordButton"
+        app:layout_constraintVertical_bias="0.064" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
