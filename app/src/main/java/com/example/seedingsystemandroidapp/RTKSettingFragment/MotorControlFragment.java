@@ -12,7 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,8 +25,11 @@ import com.example.seedingsystemandroidapp.R;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Arrays;
+
 public class MotorControlFragment extends Fragment {
 
+    private int SetSpeed;
     private TextView SpeedTextView;
     private TextView altiTextView;
     private TextView RTKStatusTextView;
@@ -34,6 +39,8 @@ public class MotorControlFragment extends Fragment {
     private TextView leftInfo;
     private Button SendDataButton;
     private Button SendData0Button;
+    private TextView SetSpeedText;
+    private SeekBar SetSpeedSeekBar;
     private Handler handler;
     private WebSocketServiceReceiver webSocketReceiver;
 
@@ -62,9 +69,32 @@ public class MotorControlFragment extends Fragment {
         latTextView = view.findViewById(R.id.latTextView);
         leftInfo = view.findViewById(R.id.leftInfo);
         SendData0Button = view.findViewById(R.id.SendData0Button);
+        SetSpeedText = view.findViewById(R.id.SetSpeedText);
+        SetSpeedSeekBar = view.findViewById(R.id.SetSpeedSeekBar);
+
 
         setupSendDataButton();
         setupSendData0Button();
+
+        SetSpeedSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override  //当滑块进度改变时，会执行该方法下的代码
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+//            mImageView.setAlpha(i);//设置当前的透明度
+//            mTextView.setText("当前透明度： " +i+"/255");
+                SetSpeedText.setText("速度 " +i);
+                SetSpeed = i;
+            }
+
+            @Override  //当开始滑动滑块时，会执行该方法下的代码
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override   //当结束滑动滑块时，会执行该方法下的代码
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
 
         startCounting(); // Placeholder, adjust as needed
 
@@ -88,7 +118,33 @@ public class MotorControlFragment extends Fragment {
         SendDataButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendWebSocketMessage(1);
+                JSONObject data = new JSONObject();
+                String[] variables = {"n1", "n2", "n3", "n4", "z1", "z2", "z3", "z4", "s1", "s2", "s3", "s4"};
+
+                try {
+                    // 给 n1 赋值
+                    data.put(variables[0], 1); // 替换 "your_value_for_n1" 为你实际的值
+                    data.put(variables[1], 1);
+                    data.put(variables[2], 1);
+                    data.put(variables[3], 1);
+                    data.put(variables[4], 1);
+                    data.put(variables[5], 1);
+                    data.put(variables[6], 1);
+                    data.put(variables[7], 1);
+
+                    data.put(variables[8], SetSpeed);
+                    data.put(variables[9], SetSpeed);
+                    data.put(variables[10], SetSpeed);
+                    data.put(variables[11], SetSpeed);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                String jsonMessage = data.toString();
+
+                Intent intent = new Intent("SendWebSocketMessage");
+                intent.putExtra("message", jsonMessage);
+                requireContext().sendBroadcast(intent);
             }
         });
     }
