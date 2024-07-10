@@ -30,6 +30,8 @@ import java.util.Arrays;
 
 public class MotorControlFragment extends Fragment {
 
+    // 初始化一个布尔数组，用于保存4个View的开关状态
+    boolean[] isOnArray = {false, false, false, false};
     private int SetSpeed;
     private TextView SpeedTextView;
     private TextView altiTextView;
@@ -87,6 +89,7 @@ public class MotorControlFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 isOn = !isOn;
+                isOnArray[0]=isOn;
                 if (isOn) {
                     leftColorBlock.setBackgroundColor(getResources().getColor(android.R.color.holo_green_light));
                     // 执行开启时的逻辑
@@ -101,6 +104,7 @@ public class MotorControlFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 isOn = !isOn;
+                isOnArray[1]=isOn;
                 if (isOn) {
                     rightColorBlock.setBackgroundColor(getResources().getColor(android.R.color.holo_green_light));
                     // 执行开启时的逻辑
@@ -115,6 +119,7 @@ public class MotorControlFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 isOn = !isOn;
+                isOnArray[2]=isOn;
                 if (isOn) {
                     leftBottomColorBlock.setBackgroundColor(getResources().getColor(android.R.color.holo_green_light));
                     // 执行开启时的逻辑
@@ -129,6 +134,7 @@ public class MotorControlFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 isOn = !isOn;
+                isOnArray[3]=isOn;
                 if (isOn) {
                     rightBottomColorBlock.setBackgroundColor(getResources().getColor(android.R.color.holo_green_light));
                     // 执行开启时的逻辑
@@ -147,8 +153,6 @@ public class MotorControlFragment extends Fragment {
         SetSpeedSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override  //当滑块进度改变时，会执行该方法下的代码
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-//            mImageView.setAlpha(i);//设置当前的透明度
-//            mTextView.setText("当前透明度： " +i+"/255");
                 SetSpeedText.setText("速度 " +i);
                 SetSpeed = i;
             }
@@ -191,10 +195,11 @@ public class MotorControlFragment extends Fragment {
 
                 try {
                     // 给 n1 赋值
-                    data.put(variables[0], 1); // 替换 "your_value_for_n1" 为你实际的值
-                    data.put(variables[1], 1);
-                    data.put(variables[2], 1);
-                    data.put(variables[3], 1);
+                    data.put(variables[0], isOnArray[0] ? 1 : 0); // 替换 "your_value_for_n1" 为你实际的值
+                    data.put(variables[1], isOnArray[1] ? 1 : 0);
+                    data.put(variables[2], isOnArray[2] ? 1 : 0);
+                    data.put(variables[3], isOnArray[3] ? 1 : 0);
+
                     data.put(variables[4], 1);
                     data.put(variables[5], 1);
                     data.put(variables[6], 1);
