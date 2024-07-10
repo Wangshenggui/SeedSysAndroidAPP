@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.SeekBar;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,6 +42,7 @@ public class MotorControlFragment extends Fragment {
     private Button SendData0Button;
     private TextView SetSpeedText;
     private SeekBar SetSpeedSeekBar;
+    private View leftColorBlock;
     private Handler handler;
     private WebSocketServiceReceiver webSocketReceiver;
 
@@ -71,6 +73,26 @@ public class MotorControlFragment extends Fragment {
         SendData0Button = view.findViewById(R.id.SendData0Button);
         SetSpeedText = view.findViewById(R.id.SetSpeedText);
         SetSpeedSeekBar = view.findViewById(R.id.SetSpeedSeekBar);
+        leftColorBlock = view.findViewById(R.id.leftColorBlock);
+
+
+        leftColorBlock.setOnClickListener(new View.OnClickListener() {
+            boolean isOn = false;
+
+            @Override
+            public void onClick(View v) {
+                isOn = !isOn;
+                if (isOn) {
+                    leftColorBlock.setBackgroundColor(getResources().getColor(android.R.color.holo_green_light));
+                    // 执行开启时的逻辑
+                    leftColorBlock.setBackgroundColor(Color.BLUE);
+                } else {
+                    leftColorBlock.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_light));
+                    // 执行关闭时的逻辑
+                    leftColorBlock.setBackgroundColor(Color.BLACK);
+                }
+            }
+        });
 
 
         setupSendDataButton();

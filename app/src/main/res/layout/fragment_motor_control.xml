@@ -139,10 +139,12 @@
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_marginTop="8dp"
-            android:background="@android:color/holo_blue_light"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/leftInfo" />
+
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- 右侧容器 -->
@@ -328,7 +330,7 @@
         android:layout_height="wrap_content"
         android:text="设置速度"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/SeekBar"
+        app:layout_constraintBottom_toTopOf="@+id/SetSpeedSeekBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/leftBottomContainer" />
