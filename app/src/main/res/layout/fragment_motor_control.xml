@@ -103,10 +103,20 @@
         android:layout_height="wrap_content"
         android:background="#C0C0C0C0"
         android:elevation="4dp"
-        android:padding="16dp"
+        android:padding="0dp"
         app:layout_constraintEnd_toStartOf="@id/guideline"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/lonTextView">
+
+        <View
+            android:id="@+id/leftColorBlock"
+            android:layout_width="202dp"
+            android:layout_height="160dp"
+            android:background="#40000000"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <!-- 左侧标题 -->
         <TextView
@@ -114,6 +124,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="左侧标题"
+            android:elevation="4dp"
+            android:padding="16dp"
             android:textColor="@android:color/black"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -132,19 +144,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/leftTitle" />
-
-        <!-- 左侧色块 -->
-        <View
-            android:id="@+id/leftColorBlock"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/leftInfo" />
-
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- 右侧容器 -->
@@ -154,10 +153,21 @@
         android:layout_height="wrap_content"
         android:background="#C0C0C0C0"
         android:elevation="4dp"
-        android:padding="16dp"
+        android:padding="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/guideline"
         app:layout_constraintTop_toBottomOf="@id/latTextView">
+
+        <!-- 右侧色块 -->
+        <View
+            android:id="@+id/rightColorBlock"
+            android:layout_width="202dp"
+            android:layout_height="160dp"
+            android:background="#40000000"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <!-- 右侧标题 -->
         <TextView
@@ -165,6 +175,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="右侧标题"
+            android:elevation="4dp"
+            android:padding="16dp"
             android:textColor="@android:color/black"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -184,16 +196,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/rightTitle" />
 
-        <!-- 右侧色块 -->
-        <View
-            android:id="@+id/rightColorBlock"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="8dp"
-            android:background="@android:color/holo_red_light"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rightInfo" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- 左侧下方容器 -->
@@ -203,10 +206,21 @@
         android:layout_height="wrap_content"
         android:background="#A0A0A0"
         android:elevation="4dp"
-        android:padding="16dp"
+        android:padding="0dp"
         app:layout_constraintEnd_toStartOf="@id/guideline"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/leftContainer">
+
+        <!-- 左侧下方色块 -->
+        <View
+            android:id="@+id/leftBottomColorBlock"
+            android:layout_width="202dp"
+            android:layout_height="160dp"
+            android:background="#40000000"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <!-- 左侧下方标题 -->
         <TextView
@@ -214,6 +228,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="左侧下方标题"
+            android:elevation="4dp"
+            android:padding="16dp"
             android:textColor="@android:color/black"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -233,16 +249,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/leftBottomTitle" />
 
-        <!-- 左侧下方色块 -->
-        <View
-            android:id="@+id/leftBottomColorBlock"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="8dp"
-            android:background="@android:color/holo_green_light"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/leftBottomInfo" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- 右侧下方容器 -->
@@ -252,10 +259,21 @@
         android:layout_height="wrap_content"
         android:background="#A0A0A0"
         android:elevation="4dp"
-        android:padding="16dp"
+        android:padding="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/guideline"
         app:layout_constraintTop_toBottomOf="@id/rightContainer">
+
+        <!-- 右侧下方色块 -->
+        <View
+            android:id="@+id/rightBottomColorBlock"
+            android:layout_width="202dp"
+            android:layout_height="160dp"
+            android:background="#40000000"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <!-- 右侧下方标题 -->
         <TextView
@@ -263,6 +281,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="右侧下方标题"
+            android:elevation="4dp"
+            android:padding="16dp"
             android:textColor="@android:color/black"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -282,16 +302,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/rightBottomTitle" />
 
-        <!-- 右侧下方色块 -->
-        <View
-            android:id="@+id/rightBottomColorBlock"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="8dp"
-            android:background="@android:color/holo_orange_light"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rightBottomInfo" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.Guideline
@@ -328,6 +339,7 @@
         android:id="@+id/SetSpeedText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:text="设置速度"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/SetSpeedSeekBar"

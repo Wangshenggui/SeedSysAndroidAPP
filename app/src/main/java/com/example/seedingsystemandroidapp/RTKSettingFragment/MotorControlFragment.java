@@ -43,6 +43,9 @@ public class MotorControlFragment extends Fragment {
     private TextView SetSpeedText;
     private SeekBar SetSpeedSeekBar;
     private View leftColorBlock;
+    private View rightColorBlock;
+    private View leftBottomColorBlock;
+    private View rightBottomColorBlock;
     private Handler handler;
     private WebSocketServiceReceiver webSocketReceiver;
 
@@ -74,25 +77,68 @@ public class MotorControlFragment extends Fragment {
         SetSpeedText = view.findViewById(R.id.SetSpeedText);
         SetSpeedSeekBar = view.findViewById(R.id.SetSpeedSeekBar);
         leftColorBlock = view.findViewById(R.id.leftColorBlock);
+        rightColorBlock = view.findViewById(R.id.rightColorBlock);
+        leftBottomColorBlock = view.findViewById(R.id.leftBottomColorBlock);
+        rightBottomColorBlock = view.findViewById(R.id.rightBottomColorBlock);
 
 
         leftColorBlock.setOnClickListener(new View.OnClickListener() {
             boolean isOn = false;
-
             @Override
             public void onClick(View v) {
                 isOn = !isOn;
                 if (isOn) {
                     leftColorBlock.setBackgroundColor(getResources().getColor(android.R.color.holo_green_light));
                     // 执行开启时的逻辑
-                    leftColorBlock.setBackgroundColor(Color.BLUE);
                 } else {
-                    leftColorBlock.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_light));
+                    leftColorBlock.setBackgroundColor(Color.parseColor("#80000000"));
                     // 执行关闭时的逻辑
-                    leftColorBlock.setBackgroundColor(Color.BLACK);
                 }
             }
         });
+        rightColorBlock.setOnClickListener(new View.OnClickListener() {
+            boolean isOn = false;
+            @Override
+            public void onClick(View v) {
+                isOn = !isOn;
+                if (isOn) {
+                    rightColorBlock.setBackgroundColor(getResources().getColor(android.R.color.holo_green_light));
+                    // 执行开启时的逻辑
+                } else {
+                    rightColorBlock.setBackgroundColor(Color.parseColor("#80000000"));
+                    // 执行关闭时的逻辑
+                }
+            }
+        });
+        leftBottomColorBlock.setOnClickListener(new View.OnClickListener() {
+            boolean isOn = false;
+            @Override
+            public void onClick(View v) {
+                isOn = !isOn;
+                if (isOn) {
+                    leftBottomColorBlock.setBackgroundColor(getResources().getColor(android.R.color.holo_green_light));
+                    // 执行开启时的逻辑
+                } else {
+                    leftBottomColorBlock.setBackgroundColor(Color.parseColor("#80000000"));
+                    // 执行关闭时的逻辑
+                }
+            }
+        });
+        rightBottomColorBlock.setOnClickListener(new View.OnClickListener() {
+            boolean isOn = false;
+            @Override
+            public void onClick(View v) {
+                isOn = !isOn;
+                if (isOn) {
+                    rightBottomColorBlock.setBackgroundColor(getResources().getColor(android.R.color.holo_green_light));
+                    // 执行开启时的逻辑
+                } else {
+                    rightBottomColorBlock.setBackgroundColor(Color.parseColor("#80000000"));
+                    // 执行关闭时的逻辑
+                }
+            }
+        });
+
 
 
         setupSendDataButton();
