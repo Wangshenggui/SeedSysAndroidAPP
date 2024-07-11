@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -15,22 +16,22 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class DiffAccountActivity extends AppCompatActivity {
 
+    //基站号
+    int eNodeB_n = 0;
+    int Port = 0;
     private Spinner spinner;
     RadioGroup radioGroup1;
     RadioGroup radioGroup2;
     CheckBox showPasswordCheckBox;
     EditText PasswordeditText;
+    Button SendDiffAccountButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +43,7 @@ public class DiffAccountActivity extends AppCompatActivity {
         showPasswordCheckBox = findViewById(R.id.showPasswordCheckBox);
         PasswordeditText = findViewById(R.id.PasswordeditText);
         spinner = findViewById(R.id.spinner);
+        SendDiffAccountButton = findViewById(R.id.SendDiffAccountButton);
 
         radioGroup1.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -49,23 +51,29 @@ public class DiffAccountActivity extends AppCompatActivity {
                 // checkedId is the RadioButton selected
                 if (checkedId == R.id.RadioYiDongeNodeBButton) {
                     // Handle 移动 (Yi Dong) selection
+                    eNodeB_n = 1;
                 } else if (checkedId == R.id.RadioQianXuneNodeBButton) {
                     // Handle 千寻 (Qian Xun) selection
+                    eNodeB_n = 2;
                 }
+                // 根据 Port 的值更新 Spinner 的选项内容
+                updateSpinnerOptions();
             }
         });
+
         radioGroup2.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 // checkedId is the RadioButton selected
                 if (checkedId == R.id.Radio8001eNodeBButton) {
-                    // Handle 移动 (Yi Dong) selection
+                    Port = 3;
                 } else if (checkedId == R.id.Radio8002eNodeBButton) {
-                    // Handle 千寻 (Qian Xun) selection
+                    Port = 4;
                 }
             }
         });
-        //显示密码
+
+        // 显示密码
         showPasswordCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 PasswordeditText.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
@@ -80,7 +88,8 @@ public class DiffAccountActivity extends AppCompatActivity {
         categories.add("选项 1");
         categories.add("选项 2");
         categories.add("选项 3");
-        // 创建一个适配器（Adapter），用于将数据与Spinner关联起来
+
+        // 创建一个适配器（Adapter），用于将数据与 Spinner 关联起来
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
@@ -91,6 +100,7 @@ public class DiffAccountActivity extends AppCompatActivity {
                 textView.setTextSize(20); // 根据需要调整字体大小
                 return view;
             }
+
             @Override
             public View getDropDownView(int position, View convertView, ViewGroup parent) {
                 // 获取默认下拉视图
@@ -101,11 +111,12 @@ public class DiffAccountActivity extends AppCompatActivity {
                 return view;
             }
         };
+
         // 设置下拉列表框的样式
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // 将适配器设置到Spinner
+        // 将适配器设置到 Spinner
         spinner.setAdapter(dataAdapter);
-        // 设置Spinner的选择监听器
+        // 设置 Spinner 的选择监听器
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -120,8 +131,38 @@ public class DiffAccountActivity extends AppCompatActivity {
             }
         });
 
-        Intent intent = new Intent("SendWebSocketMessage");
-        intent.putExtra("message", "这是消息");
-        sendBroadcast(intent);
+        // 设置发送按钮点击事件
+        SendDiffAccountButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 发送广播或执行其他操作
+                Intent intent = new Intent("SendWebSocketMessage");
+                intent.putExtra("message", "这是消息");
+                sendBroadcast(intent);
+
+
+            }
+        });
+    }
+
+    // 更新 Spinner 的选项内容方法
+    private void updateSpinnerOptions() {
+        // 根据 Port 的值选择合适的数据源
+        List<String> currentCategories = new ArrayList<>();
+        if (eNodeB_n == 2) {
+            currentCategories.add("选项 A");
+            currentCategories.add("选项 B");
+            currentCategories.add("选项 C");
+        } else {
+            currentCategories.add("选项 1");
+            currentCategories.add("选项 2");
+            currentCategories.add("选项 3");
+        }
+
+        // 更新适配器的数据源，并通知适配器数据已改变
+        ArrayAdapter<String> adapter = (ArrayAdapter<String>) spinner.getAdapter();
+        adapter.clear();
+        adapter.addAll(currentCategories);
+        adapter.notifyDataSetChanged();
     }
 }
