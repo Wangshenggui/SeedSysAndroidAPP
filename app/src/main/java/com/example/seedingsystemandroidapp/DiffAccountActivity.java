@@ -1,10 +1,13 @@
 package com.example.seedingsystemandroidapp;
 
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -52,6 +55,17 @@ public class DiffAccountActivity extends AppCompatActivity {
                     // Handle 千寻 (Qian Xun) selection
                 }
             }
+        });
+
+        CheckBox showPasswordCheckBox = findViewById(R.id.showPasswordCheckBox);
+        EditText PasswordeditText = findViewById(R.id.PasswordeditText);
+        showPasswordCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                PasswordeditText.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+            } else {
+                PasswordeditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            }
+            PasswordeditText.setSelection(PasswordeditText.length()); // 保持光标在文本末尾
         });
 
         spinner = findViewById(R.id.spinner);

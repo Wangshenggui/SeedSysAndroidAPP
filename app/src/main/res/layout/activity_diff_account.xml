@@ -151,5 +151,79 @@
         </RadioGroup>
     </HorizontalScrollView>
 
+    <TextView
+        android:id="@+id/AccounttextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:elevation="4dp"
+        android:padding="5dp"
+        android:text="账号: "
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.048"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/MountPointtextView" />
+
+    <EditText
+        android:id="@+id/AccounteditText"
+        android:layout_width="262dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:hint="输入账号"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.38"
+        app:layout_constraintStart_toEndOf="@+id/AccounttextView"
+        app:layout_constraintTop_toBottomOf="@+id/spinner" />
+
+    <TextView
+        android:id="@+id/PasswordtextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:elevation="4dp"
+        android:padding="5dp"
+        android:text="密码: "
+
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.048"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/AccounttextView" />
+
+    <EditText
+        android:id="@+id/PasswordeditText"
+        android:layout_width="241dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="16dp"
+        android:hint="输入密码"
+        android:inputType="textPassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.293"
+        app:layout_constraintStart_toEndOf="@+id/PasswordtextView"
+        app:layout_constraintTop_toBottomOf="@+id/AccounteditText" />
+
+    <CheckBox
+        android:id="@+id/showPasswordCheckBox"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.44"
+        app:layout_constraintStart_toEndOf="@+id/PasswordeditText"
+        app:layout_constraintTop_toBottomOf="@+id/AccounteditText" />
+
+    <Button
+        android:id="@+id/SendDiffAccountButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="发送设置信息"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/PasswordtextView"
+        app:layout_constraintVertical_bias="0.156" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
