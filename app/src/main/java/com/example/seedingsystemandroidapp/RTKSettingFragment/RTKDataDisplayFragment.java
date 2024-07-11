@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 
 import com.example.seedingsystemandroidapp.R;
 
@@ -25,6 +26,7 @@ public class RTKDataDisplayFragment extends Fragment {
     private String mParam2;
 
     private WebView webView;
+    private Button goto4GSettingButton;
 
     public RTKDataDisplayFragment() {
         // Required empty public constructor
@@ -55,11 +57,24 @@ public class RTKDataDisplayFragment extends Fragment {
 
         // Initialize WebView
         webView = view.findViewById(R.id.webView);
+        goto4GSettingButton = view.findViewById(R.id.goto4GSettingButton);
+
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webView.setWebViewClient(new WebViewClient());
         webView.loadUrl("file:///android_asset/BaiduMap.html"); // 载入网页的URL
 
+        goto4GSettingButton();
+
         return view;
+    }
+
+    private void goto4GSettingButton() {
+        goto4GSettingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 }
