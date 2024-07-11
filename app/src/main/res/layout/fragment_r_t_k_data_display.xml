@@ -30,7 +30,7 @@
         tools:ignore="MissingConstraints" />
 
     <Button
-        android:id="@+id/goto4GSettingButton"
+        android:id="@+id/gotoDiffCccountSettingButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="差分账号设置"

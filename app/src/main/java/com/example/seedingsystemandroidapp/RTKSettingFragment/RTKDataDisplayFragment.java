@@ -1,5 +1,6 @@
 package com.example.seedingsystemandroidapp.RTKSettingFragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,7 +11,10 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 
+import com.example.seedingsystemandroidapp.DiffAccountActivity;
+import com.example.seedingsystemandroidapp.MainActivity;
 import com.example.seedingsystemandroidapp.R;
+import com.example.seedingsystemandroidapp.RTKSettingActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,7 +30,7 @@ public class RTKDataDisplayFragment extends Fragment {
     private String mParam2;
 
     private WebView webView;
-    private Button goto4GSettingButton;
+    private Button gotoDiffCccountSettingButton;
 
     public RTKDataDisplayFragment() {
         // Required empty public constructor
@@ -57,23 +61,24 @@ public class RTKDataDisplayFragment extends Fragment {
 
         // Initialize WebView
         webView = view.findViewById(R.id.webView);
-        goto4GSettingButton = view.findViewById(R.id.goto4GSettingButton);
+        gotoDiffCccountSettingButton = view.findViewById(R.id.gotoDiffCccountSettingButton);
 
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webView.setWebViewClient(new WebViewClient());
         webView.loadUrl("file:///android_asset/BaiduMap.html"); // 载入网页的URL
 
-        goto4GSettingButton();
+        gotoDiffCccountSettingButton();
 
         return view;
     }
 
-    private void goto4GSettingButton() {
-        goto4GSettingButton.setOnClickListener(new View.OnClickListener() {
+    private void gotoDiffCccountSettingButton() {
+        gotoDiffCccountSettingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(getActivity(), DiffAccountActivity.class);
+                startActivity(intent);
             }
         });
     }
