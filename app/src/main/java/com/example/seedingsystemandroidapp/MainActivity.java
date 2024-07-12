@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent=null;
-                intent=new Intent(MainActivity.this,BluetoothActivity.class);
+                intent=new Intent(MainActivity.this,BluetoothFunActivity.class);
                 startActivity(intent);
             }
         });
