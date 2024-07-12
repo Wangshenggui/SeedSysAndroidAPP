@@ -1,6 +1,6 @@
 package com.example.seedingsystemandroidapp.BtThread;
 
-import static com.example.seedingsystemandroidapp.BluetoothActivity.MY_UUID;
+import static com.example.seedingsystemandroidapp.BluetoothFunActivity.MY_UUID;
 
 import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothDevice;

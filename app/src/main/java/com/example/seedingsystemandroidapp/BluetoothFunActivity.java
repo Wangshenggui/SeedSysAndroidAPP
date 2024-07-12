@@ -13,14 +13,20 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.seedingsystemandroidapp.BluetoothFunFragment.BluetoothConnectionFragment;
 import com.example.seedingsystemandroidapp.BluetoothFunFragment.DataAcceptanceFragment;
+import com.example.seedingsystemandroidapp.BtThread.ConnectThread;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.util.UUID;
 
 public class BluetoothFunActivity extends AppCompatActivity {
 
+    public static ConnectThread connectThread;
+    public static ConnectThread connectedThread;
     private BottomNavigationView mNavigationView;
     private Fragment[] fragments;
     private FragmentManager mFragmentManager;
     private int lastFragment;
+    public static UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");//符合UUID格式就行。
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

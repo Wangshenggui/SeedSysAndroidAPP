@@ -2,6 +2,7 @@ package com.example.seedingsystemandroidapp.BtThread;
 
 import android.bluetooth.BluetoothSocket;
 
+import com.example.seedingsystemandroidapp.BluetoothFunFragment.DataAcceptanceFragment;
 import com.example.seedingsystemandroidapp.MainActivity;
 
 import java.io.BufferedInputStream;
@@ -56,7 +57,7 @@ public class ConnectedThread extends Thread{
                 // you can process it as needed
                 // For example, you can send it to the UI for display or perform any other actions
                 // Example: Send the received data to MainActivity for processing
-                MainActivity.processReceivedData(buffer, bytesRead);
+                DataAcceptanceFragment.processReceivedData(buffer, bytesRead);
             }
 
         } catch (IOException e) {
