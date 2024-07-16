@@ -1,9 +1,13 @@
 package com.example.seedingsystemandroidapp;
 
+import static android.view.View.GONE;
+import static android.view.View.INVISIBLE;
+import static android.view.View.VISIBLE;
 import static com.example.seedingsystemandroidapp.BluetoothFunFragment.DataAcceptanceFragment.bytesToDouble;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -14,8 +18,11 @@ import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,6 +36,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -42,9 +50,11 @@ public class CanvasActivity extends AppCompatActivity {
     private Button zoomInButton;
     private Button zoomOutButton;
     private TextView testTextView;
-    private TextView mapTextView;
     private Button RecordDataButton;
     private Button SaveDataButton;
+    private Button DispListButton;
+    private ListView list_view;
+    private ScrollView scrollView;
 
     private float zoom = 1;
     private int translationX = 0;
@@ -63,6 +73,10 @@ public class CanvasActivity extends AppCompatActivity {
     private static double Longitude;
     private static double Latitude;
 
+    private int fileNum=0;
+    //3、准备数据
+    private String[] listdata;
+
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,8 +86,10 @@ public class CanvasActivity extends AppCompatActivity {
         // 初始化视图
         initializeViews();
 
+        list_view.setVisibility(INVISIBLE);
 
-        String FileName = "niganma.csv";
+
+        String FileName = "mydata.csv";
         // 写入成功后立即读取文件内容
         readCSVFile(FileName);
 
@@ -105,7 +121,47 @@ public class CanvasActivity extends AppCompatActivity {
         }
 
         listFiles(directory);
+
+        DispListButton.setOnClickListener(new View.OnClickListener() {
+            boolean status=false;
+            @Override
+            public void onClick(View v) {
+                status = !status;
+                if(status){
+                    list_view.setVisibility(INVISIBLE);
+                    scrollView.setVisibility(VISIBLE);
+                } else {
+                    list_view.setVisibility(VISIBLE);
+                    scrollView.setVisibility(INVISIBLE);
+                }
+            }
+        });
+
+
+
+        //4、创建适配器 连接数据源和控件的桥梁
+        //参数 1：当前的上下文环境
+        //参数 2：当前列表项所加载的布局文件
+        //(android.R.layout.simple_list_item_1)这里的布局文件是Android内置的，里面只有一个textview控件用来显示简单的文本内容
+        //参数 3：数据源
+        ArrayAdapter<String> adapter=new ArrayAdapter<>(CanvasActivity.this,android.R.layout.simple_list_item_1,listdata);
+        //5、将适配器加载到控件中
+        list_view.setAdapter(adapter);
+        //6、为列表中选中的项添加单击响应事件
+        list_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int i, long l) {
+                String result = ((TextView) view).getText().toString();
+                readCSVFile(result);
+                // 寻找最小值，用于缩放和平移
+                minXValue = findMinValue(rawDataPoints, 0);
+                minYValue = findMinValue(rawDataPoints, 1);
+                // 绘制画布
+                drawCanvas();
+            }
+        });
     }
+
     private void writeFileLonLat(String filename, double lonlat[][]) {
         StringBuilder Data = new StringBuilder();
 
@@ -132,20 +188,26 @@ public class CanvasActivity extends AppCompatActivity {
             }
         }
     }
+
     @SuppressLint("SetTextI18n")
     private void listFiles(File directory) {
+        String[] temp = new String[100];
         File[] files = directory.listFiles();
         if (files != null) {
             for (File file : files) {
                 if (file.isDirectory()) {
                     // 如果要打印子目录，可以使用 file.getName() 或 file.getPath()
-                    mapTextView.setText(mapTextView.getText() + file.getPath() + "\n");
                     listFiles(file); // 递归调用，处理子目录
                 } else {
                     // 如果要打印文件名，可以使用 file.getName() 或 file.getPath()
-                    mapTextView.setText(mapTextView.getText() + file.getPath() + "\n");
+                    temp[fileNum] = file.getName();
                 }
+                fileNum++;
             }
+        }
+        listdata = new String[fileNum];
+        for (int i = 0; i < fileNum; i++) {
+            listdata[i] = temp[i];
         }
     }
     private void readCSVFile(String fileName) {
@@ -192,7 +254,7 @@ public class CanvasActivity extends AppCompatActivity {
 
             // Show the contents in a Toast message
             String fileContents = sb.toString();
-            Toast.makeText(getApplicationContext(), fileContents, Toast.LENGTH_LONG).show();
+            //Toast.makeText(getApplicationContext(), fileContents, Toast.LENGTH_LONG).show();
             testTextView.setText(fileContents);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -215,9 +277,11 @@ public class CanvasActivity extends AppCompatActivity {
         zoomInButton = findViewById(R.id.ZoomInButton);
         zoomOutButton = findViewById(R.id.ZoomOutButton);
         testTextView = findViewById(R.id.testTextView);
-        mapTextView = findViewById(R.id.mapTextView);
         RecordDataButton = findViewById(R.id.RecordDataButton);
         SaveDataButton = findViewById(R.id.SaveDataButton);
+        DispListButton = findViewById(R.id.DispListButton);
+        list_view = findViewById(R.id.list_view);
+        scrollView = findViewById(R.id.scrollView);
     }
 
     // 初始化 Bitmap 和 Canvas
@@ -225,7 +289,7 @@ public class CanvasActivity extends AppCompatActivity {
         int screenWidth = getScreenWidth();
         bitmap = Bitmap.createBitmap(screenWidth, screenWidth, Bitmap.Config.ARGB_8888);
         canvas = new Canvas(bitmap);
-        canvas.drawColor(Color.BLACK); // 绘制背景为黑色
+        canvas.drawColor(Color.WHITE); // 绘制背景为黑色
     }
 
     // 初始化画笔
@@ -248,14 +312,14 @@ public class CanvasActivity extends AppCompatActivity {
     private void setupZoomButtons() {
         zoomInButton.setOnClickListener(v -> {
             zoom *= 1.5f; // 放大倍数
-            canvas.drawColor(Color.BLACK); // 清空画布，重新绘制
+            canvas.drawColor(Color.WHITE); // 清空画布，重新绘制
             zoomPoints(rawDataPoints, zoom);
             drawFilledMap(plottedDataPoints, Color.RED, 5, 255);
         });
 
         zoomOutButton.setOnClickListener(v -> {
             zoom /= 1.5f; // 缩小倍数
-            canvas.drawColor(Color.BLACK); // 清空画布，重新绘制
+            canvas.drawColor(Color.WHITE); // 清空画布，重新绘制
             zoomPoints(rawDataPoints, zoom);
             drawFilledMap(plottedDataPoints, Color.RED, 5, 255);
         });
@@ -362,7 +426,6 @@ public class CanvasActivity extends AppCompatActivity {
     // 设置滚动视图的触摸事件
     @SuppressLint("ClickableViewAccessibility")
     private void setupScrollView() {
-        ScrollView scrollView = findViewById(R.id.scrollView);
         scrollView.setOnTouchListener(new View.OnTouchListener() {
             private float startX;
             private float startY;
@@ -386,7 +449,7 @@ public class CanvasActivity extends AppCompatActivity {
                             translationX += (int) deltaX;
                             translationY -= (int) deltaY;
 
-                            canvas.drawColor(Color.BLACK); // 清空画布，重新绘制
+                            canvas.drawColor(Color.WHITE); // 清空画布，重新绘制
                             zoomPoints(rawDataPoints, zoom);
                             drawFilledMap(plottedDataPoints, Color.RED, 5, 255);
 
