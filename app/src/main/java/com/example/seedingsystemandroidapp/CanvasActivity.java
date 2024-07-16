@@ -1,5 +1,7 @@
 package com.example.seedingsystemandroidapp;
 
+import static com.example.seedingsystemandroidapp.BluetoothFunFragment.DataAcceptanceFragment.bytesToDouble;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -25,9 +27,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.Random;
 
 public class CanvasActivity extends AppCompatActivity {
 
@@ -40,6 +43,8 @@ public class CanvasActivity extends AppCompatActivity {
     private Button zoomOutButton;
     private TextView testTextView;
     private TextView mapTextView;
+    private Button RecordDataButton;
+    private Button SaveDataButton;
 
     private float zoom = 1;
     private int translationX = 0;
@@ -47,15 +52,16 @@ public class CanvasActivity extends AppCompatActivity {
     private double minXValue;
     private double minYValue;
 
-//    106.613138, 26.379819
-//    106.613273, 26.379863
-//    106.61329, 26.379694
-//    106.613234, 26.379672
-//    106.613219, 26.379702
-//    106.613186, 26.379697
-
     private double[][] rawDataPoints;
     private double[][] plottedDataPoints;
+    private double[][] SaveNewDataPoints;
+    int aaa=0;
+
+    private static byte[] RxData;
+    private static int totalBytesReceived = 0;
+    static int count=0;
+    private static double Longitude;
+    private static double Latitude;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -67,41 +73,9 @@ public class CanvasActivity extends AppCompatActivity {
         initializeViews();
 
 
-//        StringBuilder csvData = new StringBuilder();
-//        csvData.append(116.433606).append(",").append(39.829946).append("\n");
-//        csvData.append(116.438603).append(",").append(39.830069).append("\n");
-//
-//        csvData.append(116.441437).append(",").append(39.827215).append("\n");
-//        csvData.append(116.442767).append(",").append(39.826711).append("\n");
-//
-//        csvData.append(116.442671).append(",").append(39.82494).append("\n");
-//        csvData.append(116.433397).append(",").append(39.825174).append("\n");
-//
-//        csvData.append(116.432388).append(",").append(39.827572).append("\n");
-//        // 添加更多行...
-//
-        String csvFileName = "mydata.csv";
-//
-//        FileOutputStream fos = null;
-//        try {
-//            fos = openFileOutput(csvFileName, Context.MODE_PRIVATE);
-//            fos.write(csvData.toString().getBytes());
-//            Toast.makeText(this, "CSV file saved successfully", Toast.LENGTH_SHORT).show();
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } finally {
-//            try {
-//                if (fos != null) {
-//                    fos.close();
-//                }
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
+        String FileName = "niganma.csv";
         // 写入成功后立即读取文件内容
-        readCSVFile(csvFileName);
+        readCSVFile(FileName);
 
 
         // 初始化 Bitmap 和 Canvas
@@ -120,6 +94,7 @@ public class CanvasActivity extends AppCompatActivity {
         setupZoomButtons();
         // 设置滚动视图的触摸事件
         setupScrollView();
+        setupSaveButtons();
 
 
         String directoryPath = getFilesDir().getAbsolutePath();; // 要查找的目录路径
@@ -130,7 +105,32 @@ public class CanvasActivity extends AppCompatActivity {
         }
 
         listFiles(directory);
+    }
+    private void writeFileLonLat(String filename, double lonlat[][]) {
+        StringBuilder Data = new StringBuilder();
 
+        for (int i = 0; i < lonlat.length; i++) {
+            Data.append(lonlat[i][0]).append(",").append(lonlat[i][1]).append("\n");
+        }
+
+        FileOutputStream fos = null;
+        try {
+            fos = openFileOutput(filename, Context.MODE_PRIVATE);
+            fos.write(Data.toString().getBytes());
+            //Toast.makeText(this, "CSV file saved successfully", Toast.LENGTH_SHORT).show();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (fos != null) {
+                    fos.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
     @SuppressLint("SetTextI18n")
     private void listFiles(File directory) {
@@ -139,15 +139,12 @@ public class CanvasActivity extends AppCompatActivity {
             for (File file : files) {
                 if (file.isDirectory()) {
                     // 如果要打印子目录，可以使用 file.getName() 或 file.getPath()
-                    System.out.println("目录: " + file.getName());
-                    listFiles(file); // 递归调用，处理子目录
                     mapTextView.setText(mapTextView.getText() + file.getPath() + "\n");
+                    listFiles(file); // 递归调用，处理子目录
                 } else {
                     // 如果要打印文件名，可以使用 file.getName() 或 file.getPath()
-                    System.out.println("文件: " + file.getName());
                     mapTextView.setText(mapTextView.getText() + file.getPath() + "\n");
                 }
-
             }
         }
     }
@@ -219,6 +216,8 @@ public class CanvasActivity extends AppCompatActivity {
         zoomOutButton = findViewById(R.id.ZoomOutButton);
         testTextView = findViewById(R.id.testTextView);
         mapTextView = findViewById(R.id.mapTextView);
+        RecordDataButton = findViewById(R.id.RecordDataButton);
+        SaveDataButton = findViewById(R.id.SaveDataButton);
     }
 
     // 初始化 Bitmap 和 Canvas
@@ -259,6 +258,104 @@ public class CanvasActivity extends AppCompatActivity {
             canvas.drawColor(Color.BLACK); // 清空画布，重新绘制
             zoomPoints(rawDataPoints, zoom);
             drawFilledMap(plottedDataPoints, Color.RED, 5, 255);
+        });
+    }
+    public static int findCharacter(byte[] data, byte target) {
+        for (int i = 0; i < data.length; i++) {
+            if (data[i] == target) {
+                return i; // 找到目标字符，返回其索引
+            }
+        }
+        return -1; // 如果没有找到目标字符，返回 -1
+    }
+    @SuppressLint("SetTextI18n")
+    public static void processReceivedData(byte[] buffer, int bytes) {
+        // 确保 RxData 的大小足够存储所有接收到的数据
+        if (RxData == null) {
+            RxData = new byte[1024 * 3]; // 假设每次接收的数据大小不超过 bytes
+        }
+
+        // 将接收到的数据存储到 RxData 中
+        System.arraycopy(buffer, 0, RxData, totalBytesReceived, bytes);
+        totalBytesReceived += bytes;
+
+        // 如果接收了三次数据
+        if (count++ >= 3) {
+            count=0;
+            // 将前两次数据拼接起来
+            byte[] concatenatedData = new byte[1024 * 2];
+            System.arraycopy(RxData, 0, concatenatedData, 0, 1024 * 2);
+
+            // 显示拼接的数据在 ReceiveTextView 中
+            // 这里假设 ReceiveTextView 是用来显示文本的视图
+            // 你需要根据你的实际情况来更新文本视图的内容
+            // 使用示例
+            int index = findCharacter(RxData, (byte) 0xAB); // 在 RxData 中查找字符 'A'
+
+            int temp=RxData[index + 77] & 0xFF;
+            if(temp == 0x90){
+
+            }
+            else {
+                index=-1;
+            }
+            if (index != -1) {
+                // 找到了目标字符，进行相应的操作
+                System.out.println("Found 'A' at index: " + index);
+                // 获取 'A' 及其后面的数据
+                byte[] dataAfterA = Arrays.copyOfRange(RxData, index, index+78);
+                // 将字节数组转换为字符串
+                String stringAfterA = new String(dataAfterA);
+                // 在界面上显示字符串
+
+                StringBuilder stringBuilder = new StringBuilder();
+                for (int i = 0; i < 78; i++) {
+                    int t = RxData[index + i] & 0xFF;
+                    stringBuilder.append("0x").append(String.format("%02X", t)).append("   ");
+                }
+                StringBuilder TimestringBuilder = new StringBuilder();
+                for (int i = 0; i < 3; i++) {
+                    int t = RxData[index + i + 1] & 0xFF;
+                    TimestringBuilder.append(String.format("%02d", t)).append(" ");
+                }
+                // 需要从RxData中某个index开始提取8个字节
+                Longitude = bytesToDouble(RxData, 25+index);
+
+                // 需要从RxData中某个index开始提取8个字节
+                Latitude = bytesToDouble(RxData, 33+index);
+            } else {
+                // 没有找到目标字符
+                System.out.println("Character 'A' not found.");
+            }
+
+            // 重置 RxData 和 totalBytesReceived
+            System.arraycopy(RxData, 1024 * 2, RxData, 0, 1024);
+            totalBytesReceived = 0;
+            RxData=null;
+        }
+    }
+    // 设置保存按钮的点击事件
+    private void setupSaveButtons() {
+
+        double[][] temp = new double[100][2];
+        RecordDataButton.setOnClickListener(v -> {
+            int min = 10;
+            int max = 99;
+            Random random = new Random();
+            //int num = random.nextInt(max)%(max-min+1) + min;
+            temp[aaa][0] = Longitude;
+            //num = random.nextInt(max)%(max-min+1) + min;
+            temp[aaa][1] = Latitude;
+            aaa++;
+        });
+        SaveDataButton.setOnClickListener(v -> {
+            SaveNewDataPoints = new double[aaa][2]; // 创建一个3行4列的二维数组
+            for (int i = 0; i < aaa; i++) {
+                SaveNewDataPoints[i][0] = temp[i][0];
+                SaveNewDataPoints[i][1] = temp[i][1];
+            }
+            writeFileLonLat("niganma.csv",SaveNewDataPoints);
+            readCSVFile("niganma.csv");
         });
     }
 
@@ -314,7 +411,7 @@ public class CanvasActivity extends AppCompatActivity {
     // 绘制填充地图的方法
     private void drawFilledMap(double[][] points, @ColorInt int color, float width, int alpha) {
         drawPolygon(points, Color.WHITE, 5, 255);
-        drawFilledPolygon(points, Color.BLUE, 5, 128);
+        drawFilledPolygon(points, Color.BLUE, 5, 255);
         drawPoint(points, Color.RED, 20, 255);
     }
 

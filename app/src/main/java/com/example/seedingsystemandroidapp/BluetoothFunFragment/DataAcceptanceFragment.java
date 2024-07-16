@@ -214,7 +214,7 @@ public class DataAcceptanceFragment extends Fragment {
         }
         return -1; // 如果没有找到目标字符，返回 -1
     }
-    private static double bytesToDouble(byte[] bytes, int index) {
+    public static double bytesToDouble(byte[] bytes, int index) {
         ByteBuffer buffer = ByteBuffer.wrap(bytes, index, 8);
         buffer.order(ByteOrder.LITTLE_ENDIAN); // 如果数据是小端字节序
         return buffer.getDouble();
