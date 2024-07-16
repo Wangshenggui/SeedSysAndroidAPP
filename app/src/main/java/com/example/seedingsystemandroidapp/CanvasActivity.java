@@ -7,6 +7,7 @@ import static com.example.seedingsystemandroidapp.BluetoothFunFragment.DataAccep
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -21,12 +22,14 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.ColorInt;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.BufferedReader;
@@ -123,7 +126,7 @@ public class CanvasActivity extends AppCompatActivity {
         listFiles(directory);
 
         DispListButton.setOnClickListener(new View.OnClickListener() {
-            boolean status=false;
+            boolean status=true;
             @Override
             public void onClick(View v) {
                 status = !status;
@@ -403,12 +406,7 @@ public class CanvasActivity extends AppCompatActivity {
 
         double[][] temp = new double[100][2];
         RecordDataButton.setOnClickListener(v -> {
-            int min = 10;
-            int max = 99;
-            Random random = new Random();
-            //int num = random.nextInt(max)%(max-min+1) + min;
             temp[aaa][0] = Longitude;
-            //num = random.nextInt(max)%(max-min+1) + min;
             temp[aaa][1] = Latitude;
             aaa++;
         });
@@ -418,8 +416,43 @@ public class CanvasActivity extends AppCompatActivity {
                 SaveNewDataPoints[i][0] = temp[i][0];
                 SaveNewDataPoints[i][1] = temp[i][1];
             }
-            writeFileLonLat("niganma.csv",SaveNewDataPoints);
-            readCSVFile("niganma.csv");
+
+            // 创建一个AlertDialog.Builder对象
+            AlertDialog.Builder builder = new AlertDialog.Builder(CanvasActivity.this);
+            builder.setTitle("输入文本"); // 设置对话框标题
+
+            // 设置对话框的输入文本框
+            final EditText input = new EditText(CanvasActivity.this);
+            builder.setView(input);
+
+            // 设置对话框的确认按钮
+            builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    String userInput = input.getText().toString(); // 获取用户输入的文本
+                    if (!userInput.isEmpty()) {
+                        // 执行保存数据操作，传入用户输入的文本
+                        Toast.makeText(CanvasActivity.this, "保存文件名: " + userInput + ".csv", Toast.LENGTH_SHORT).show();
+                        writeFileLonLat(userInput + ".csv", SaveNewDataPoints);
+                        readCSVFile(userInput + ".csv");
+                    } else {
+                        // 处理用户未输入文本的情况，可以给出提示或者进行其他操作
+                        Toast.makeText(CanvasActivity.this, "请输入有效的文本", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+
+            // 设置对话框的取消按钮
+            builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel(); // 取消对话框
+                }
+            });
+
+            // 创建并显示对话框
+            AlertDialog dialog = builder.create();
+            dialog.show();
         });
     }
 
