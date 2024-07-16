@@ -79,6 +79,7 @@ public class CanvasActivity extends AppCompatActivity {
     private int fileNum=0;
     //3、准备数据
     private String[] listdata;
+    boolean DispListButtonStatus=true;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -126,17 +127,18 @@ public class CanvasActivity extends AppCompatActivity {
         listFiles(directory);
 
         DispListButton.setOnClickListener(new View.OnClickListener() {
-            boolean status=true;
             @Override
             public void onClick(View v) {
-//                status = !status;
-//                if(status){
-//                    list_view.setVisibility(INVISIBLE);
-//                    scrollView.setVisibility(VISIBLE);
-//                } else {
+                DispListButtonStatus = !DispListButtonStatus;
+                if(DispListButtonStatus){
+                    list_view.setVisibility(INVISIBLE);
+                    scrollView.setVisibility(VISIBLE);
+                    DispListButton.setText("显示文件列表");
+                } else {
                     list_view.setVisibility(VISIBLE);
                     scrollView.setVisibility(INVISIBLE);
-//                }
+                    DispListButton.setText("关闭文件列表");
+                }
             }
         });
 
@@ -158,6 +160,8 @@ public class CanvasActivity extends AppCompatActivity {
 
                 list_view.setVisibility(INVISIBLE);
                 scrollView.setVisibility(VISIBLE);
+                DispListButtonStatus = !DispListButtonStatus;
+                DispListButton.setText("显示文件列表");
 
                 readCSVFile(result);
                 // 寻找最小值，用于缩放和平移
