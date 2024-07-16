@@ -129,14 +129,14 @@ public class CanvasActivity extends AppCompatActivity {
             boolean status=true;
             @Override
             public void onClick(View v) {
-                status = !status;
-                if(status){
-                    list_view.setVisibility(INVISIBLE);
-                    scrollView.setVisibility(VISIBLE);
-                } else {
+//                status = !status;
+//                if(status){
+//                    list_view.setVisibility(INVISIBLE);
+//                    scrollView.setVisibility(VISIBLE);
+//                } else {
                     list_view.setVisibility(VISIBLE);
                     scrollView.setVisibility(INVISIBLE);
-                }
+//                }
             }
         });
 
@@ -155,6 +155,10 @@ public class CanvasActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int i, long l) {
                 String result = ((TextView) view).getText().toString();
+
+                list_view.setVisibility(INVISIBLE);
+                scrollView.setVisibility(VISIBLE);
+
                 readCSVFile(result);
                 // 寻找最小值，用于缩放和平移
                 minXValue = findMinValue(rawDataPoints, 0);
@@ -163,6 +167,63 @@ public class CanvasActivity extends AppCompatActivity {
                 drawCanvas();
             }
         });
+        list_view.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int i, long l) {
+                String result = ((TextView) view).getText().toString();
+
+                // 创建对话框构建器
+                AlertDialog.Builder builder = new AlertDialog.Builder(CanvasActivity.this);
+                builder.setTitle("确认删除");
+                builder.setMessage("确定要删除  " + result + "  吗？");
+
+                // 添加确定按钮点击事件
+                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // 在长按事件中执行的操作
+                        // 可以在这里添加你的逻辑
+
+                        // 指定要删除的文件路径
+                        String filePath = "/data/user/0/com.example.seedingsystemandroidapp/files/" + result;
+
+                        // 创建 File 对象
+                        File file = new File(filePath);
+
+                        // 检查文件是否存在
+                        if (file.exists()) {
+                            // 尝试删除文件
+                            if (file.delete()) {
+                                System.out.println("文件删除成功");
+                                Toast.makeText(CanvasActivity.this, "文件删除成功", Toast.LENGTH_SHORT).show();
+                            } else {
+                                System.out.println("文件删除失败");
+                                Toast.makeText(CanvasActivity.this, "文件删除失败", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            System.out.println("文件不存在");
+                            Toast.makeText(CanvasActivity.this, "文件不存在", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+                // 添加取消按钮点击事件
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // 用户取消删除操作，不执行任何操作
+                    }
+                });
+
+                // 创建并显示对话框
+                AlertDialog dialog = builder.create();
+                dialog.show();
+
+                return true; // 返回true表示事件已经被处理，false则继续传递到单击事件
+            }
+        });
+
+
     }
 
     private void writeFileLonLat(String filename, double lonlat[][]) {
