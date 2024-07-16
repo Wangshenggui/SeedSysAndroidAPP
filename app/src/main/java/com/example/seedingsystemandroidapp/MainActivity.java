@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
     Button goRTKSettingActivityButton;
     Button goScanActivityButton;
+    Button goCanvasActivityButton;
     Button goBluetoothButton;
 
     public static OutputStream outputStream=null;//获取输出数据
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         //获取控件ID
         goRTKSettingActivityButton = (Button) findViewById(R.id.goRTKSettingActivityButton);
         goScanActivityButton = (Button) findViewById(R.id.goScanActivityButton);
+        goCanvasActivityButton = (Button) findViewById(R.id.goCanvasActivityButton);
         goBluetoothButton=(Button) findViewById(R.id.goBluetoothButton);
 
 
@@ -49,8 +51,7 @@ public class MainActivity extends AppCompatActivity {
         goBluetoothButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=null;
-                intent=new Intent(MainActivity.this,BluetoothFunActivity.class);
+                Intent intent=new Intent(MainActivity.this,BluetoothFunActivity.class);
                 startActivity(intent);
             }
         });
@@ -68,6 +69,14 @@ public class MainActivity extends AppCompatActivity {
                 toWeChatScanDirect(MainActivity.this);
             }
         });
+        goCanvasActivityButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, CanvasActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
     public static void toWeChatScanDirect(Context context) {
         try {
