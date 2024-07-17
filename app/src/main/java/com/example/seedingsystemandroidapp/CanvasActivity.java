@@ -41,6 +41,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Random;
 
 public class CanvasActivity extends AppCompatActivity {
@@ -93,9 +94,15 @@ public class CanvasActivity extends AppCompatActivity {
         list_view.setVisibility(INVISIBLE);
 
 
-        String FileName = "mydata.csv";
-        // 写入成功后立即读取文件内容
-        readCSVFile(FileName);
+//        String FileName = "mydata.csv";
+//        // 写入成功后立即读取文件内容
+//        readCSVFile(FileName);
+
+        rawDataPoints = new double[1][2]; // 创建一个3行4列的二维数组
+        for (int i = 0; i < 1; i++) {
+            rawDataPoints[i][0] = 0;
+            rawDataPoints[i][1] = 0;
+        }
 
 
         // 初始化 Bitmap 和 Canvas
@@ -474,6 +481,19 @@ public class CanvasActivity extends AppCompatActivity {
             temp[aaa][0] = Longitude;
             temp[aaa][1] = Latitude;
             aaa++;
+
+            rawDataPoints = new double[aaa][2]; // 创建一个3行4列的二维数组
+            for (int j = 0; j < aaa; j++) {
+                rawDataPoints[j][0] = temp[j][0];
+                rawDataPoints[j][1] = temp[j][1];
+            }
+
+            // 寻找最小值，用于缩放和平移
+            minXValue = findMinValue(rawDataPoints, 0);
+            minYValue = findMinValue(rawDataPoints, 1);
+            canvas.drawColor(Color.WHITE); // 清空画布，重新绘制
+            // 绘制画布
+            drawCanvas();
         });
         SaveDataButton.setOnClickListener(v -> {
             SaveNewDataPoints = new double[aaa][2]; // 创建一个3行4列的二维数组
